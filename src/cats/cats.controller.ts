@@ -1,16 +1,17 @@
-import {Body, Controller, Delete, Get, Param, Post, Put} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Post, Put, UseGuards} from '@nestjs/common';
 import { ApiResponse, ApiTags,  ApiOperation } from "@nestjs/swagger";
-import {CreateCatDto} from "./create-cat.dto";
+import {CreateCatDto} from "./DTOs/create-cat.dto";
 import {CatsService} from "./cats.service";
 import { Cat } from './cat.interface';
-import {UpdateCatDto} from "./update-cat.dto";
+import {UpdateCatDto} from "./DTOs/update-cat.dto";
+import {JwtAuthGuard} from "../auth/guards/jwt-auth.guard";
 
 
 @ApiTags("Cats")
 @Controller('cats')
 export class CatsController {
     constructor(private catService: CatsService) {}
-
+    @UseGuards(JwtAuthGuard)
     @Get()
     @ApiResponse({
         status: 200,
